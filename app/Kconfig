@@ -1,0 +1,68 @@
+menu "App Configuration"
+
+menuconfig LED_SUBSYSTEM
+    bool "LED Subsystem"
+
+if LED_SUBSYSTEM
+
+    choice
+        prompt "LED blink sleep time"
+        default BLINK_PERIOD_1S
+    config BLINK_PERIOD_2S
+        bool "2S period"
+    config BLINK_PERIOD_1S
+        bool "1S period"
+    config BLINK_PERIOD_500MS
+        bool "500mS period"
+    config BLINK_PERIOD_250MS
+        bool "250mS period"
+    endchoice
+
+    config LED_BLINKING_PERIOD
+        int
+        default 2000 if BLINK_PERIOD_2S
+        default 1000 if BLINK_PERIOD_1S
+        default 500  if BLINK_PERIOD_500MS
+        default 250  if BLINK_PERIOD_250MS
+        default 1000
+        range 100 2000
+        help
+            Blink Period
+
+    menuconfig ADVANCED_LED_SETTINGS
+        bool "Advanced LED settings"
+    
+    if ADVANCED_LED_SETTINGS
+
+        config LED_BRIGHTNESS
+            int "LED brightness (0-100)"
+            default 100
+            range 0 100
+            help
+                LED brightness
+        
+        config LED_FADE_DURATION
+            int "LED fade duration (ms)"
+            default 500
+            range 0 5000
+            help
+                LED fade duration
+
+    menu "Expert Settings"
+        visible if ADVANCED_LED_SETTINGS
+    
+    config ENABLE_LED_DEBUGGING
+        bool "Enable LED debugging"
+    config CUSTOM_BLINK_PATTERN
+        bool "Custom blink pattern"
+    endmenu
+
+    endif   #ADVANCED_LED_SETTINGS
+
+endif   # LED_SUBSYSTEM
+
+endmenu
+
+menu "Zephyr Configuration"
+    source "Kconfig.zephyr"
+endmenu
