@@ -6,3 +6,4 @@ find_package(Zephyr REQUIRED)
 project(my_zephyr_app)
 
 target_sources(app PRIVATE src/main.cpp)
+zephyr_library_sources(src/board_init.c)
