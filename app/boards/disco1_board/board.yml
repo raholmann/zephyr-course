@@ -1,0 +1,6 @@
+board:
+  name: disco1_board
+  full_name: STM32F4 Discovery
+  vendor: st
+  socs:
+    - name: stm32f407xx
